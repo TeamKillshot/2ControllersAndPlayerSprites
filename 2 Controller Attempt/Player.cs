@@ -18,6 +18,10 @@ namespace _2_Controller_Attempt
         public Rectangle previousPosition;
         public Rectangle currentPosition;
 
+        Vector2 position;
+        Vector2 velocity;
+        readonly Vector2 gravity = new Vector2(0, -9.8f);
+
         public Texture2D Sprite { get; set; }
 
         int playerNumber = 0;
@@ -71,7 +75,7 @@ namespace _2_Controller_Attempt
             }
         }
 
-        public void Update(GameTime gameTime, Player player)
+        public void Update(GameTime gameTime, Player player, Rectangle world)
         {
             #region Player1 Controller
                 if (player != null)
@@ -92,8 +96,22 @@ namespace _2_Controller_Attempt
                     {
                         player.currentPosition.Y -= speed;
                     }
-                }           
-                #endregion
+                }
+            #endregion
+
+            if(!world.Contains(player.currentPosition))
+            {
+                player.currentPosition = player.previousPosition;
+            }
+
+            float time = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            velocity += gravity * time;
+            position += velocity * time;
+
+            if(Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+
+            }
         }
 
         public void Draw(GameTime gameTime, SpriteFont font, SpriteBatch spritebatch, Player player)
@@ -102,7 +120,7 @@ namespace _2_Controller_Attempt
             //spritebatch.DrawString(font, "Player" + player.index.ToString(), currentPosition, Color.Red);
             if (player.Sprite != null)
             {
-                spritebatch.Draw(player.Sprite, player.currentPosition, Color.White);
+                    spritebatch.Draw(player.Sprite, player.currentPosition, Color.White);
             }
             spritebatch.End();
         }

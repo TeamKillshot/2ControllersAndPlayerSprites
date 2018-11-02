@@ -17,6 +17,8 @@ namespace _2_Controller_Attempt
 
         List<Player> playersList = new List<Player>();
 
+        Rectangle world;
+
         PlayerIndex playerIndex;
 
         public Game1()
@@ -35,6 +37,8 @@ namespace _2_Controller_Attempt
 
         protected override void LoadContent()
         {
+            world = new Rectangle(0,0, 1280, 720);
+
             font = Content.Load<SpriteFont>("SystemFont");
 
             player1 = new Player(this);
@@ -81,7 +85,7 @@ namespace _2_Controller_Attempt
 
                 if(state.IsConnected)
                 {
-                    player.Update(gameTime, player);
+                    player.Update(gameTime, player, world);
                 }
             }
 
@@ -100,7 +104,7 @@ namespace _2_Controller_Attempt
 
                 if (state.IsConnected)
                 {
-                    player.Draw(gameTime, font, spriteBatch, player);
+                        player.Draw(gameTime, font, spriteBatch, player);
                 }       
             }            
 
