@@ -15,10 +15,10 @@ namespace _2_Controller_Attempt
 
         private Matrix _view;
         private Vector2 _cameraPosition;
-        private Vector2 _screenCenter;
+        //private Vector2 _screenCenter;
         private Vector2 _circleOrigin;
 
-        private Body _circleBody;
+        //private Body _circleBody;
         private Body _groundBody;
 
         #endregion
@@ -29,27 +29,32 @@ namespace _2_Controller_Attempt
             //instantiate the camera
             _view = Matrix.Identity;
             _cameraPosition = Vector2.Zero;
-            _screenCenter = new Vector2(_game.GraphicsDevice.Viewport.Width
-                / 2f, _game.GraphicsDevice.Viewport.Height / 2f);
+            //_screenCenter = new Vector2(_game.GraphicsDevice.Viewport.Width
+            //    / 2f, _game.GraphicsDevice.Viewport.Height / 2f);
+
+            _game.Components.Add(this);
         }
 
-        public void GetPlayerCircle(Player player, World _world)
+        public void GetPlayerCircle(Player player, World _world, Body _circleBody)
         {
-            _circleOrigin = new Vector2(player.Sprite.Width / 2f, player.Sprite.Height / 2f);
+            if (player.Sprite != null)
+            {
+                _circleOrigin = new Vector2(player.Sprite.Width / 2f, player.Sprite.Height / 2f);
 
-            Vector2 circlePosition = _screenCenter + new Vector2(0, -1.5f);
+                Vector2 circlePosition = new Vector2(player.currentPosition.X, player.currentPosition.Y);
 
-            // Create the circle fixture
-            _circleBody = _world.CreateCircle((2f), 1f, circlePosition, BodyType.Dynamic);
+                // Create the circle fixture
+                _circleBody = _world.CreateCircle((2f), 1f, circlePosition, BodyType.Dynamic);
 
-            // Give it some bounce and friction
-            _circleBody.SetRestitution(0.3f);
-            _circleBody.SetFriction(0.5f);
+                // Give it some bounce and friction
+                _circleBody.SetRestitution(0.3f);
+                _circleBody.SetFriction(0.5f);
 
-            _circleBody.ApplyLinearImpulse(new Vector2(0, -10));
+                _circleBody.ApplyLinearImpulse(new Vector2(0, -10));
 
-            _view = Matrix.CreateTranslation(new Vector3(_cameraPosition - _screenCenter, 0f)) 
-                * Matrix.CreateTranslation(new Vector3(_screenCenter, 0f));
+                //_view = Matrix.CreateTranslation(new Vector3(_cameraPosition - _screenCenter, 0f)) 
+                //*Matrix.CreateTranslation(new Vector3(_screenCenter, 0f));
+            }
         }
     }
 }

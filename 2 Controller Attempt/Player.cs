@@ -21,7 +21,9 @@ namespace _2_Controller_Attempt
 
         public Texture2D Sprite { get; set; }
         public string Name { get; set; }
-        public PlayerPhysics Body { get; set; }
+        public bool IsConnected = false;
+        public PlayerPhysics Body;
+        private Body _circleBody;
 
         public List<Player> playerList = new List<Player>();
 
@@ -35,6 +37,8 @@ namespace _2_Controller_Attempt
         {
             GamePad.GetState(index);
             _game.Components.Add(this);
+
+            Body = new PlayerPhysics(_game);
         }
 
         public void GetPlayerPosition(Player player)
@@ -56,18 +60,22 @@ namespace _2_Controller_Attempt
             if (player.Name == "Player1" && state.IsConnected)
             {
                 player.index = PlayerIndex.One;
+                player.IsConnected = true;
             }
             else if(player.Name == "Player2" && state2.IsConnected)
             {
                 player.index = PlayerIndex.Two;
+                player.IsConnected = true;
             }
             else if(player.Name == "Players3" && !state.IsConnected)
             {
                 player.index = PlayerIndex.Three;
+                player.IsConnected = true;
             }
             else if (player.Name == "Player4" && !state.IsConnected)
             {
                 player.index = PlayerIndex.Four;
+                player.IsConnected = true;
             }
         }
 
@@ -94,7 +102,7 @@ namespace _2_Controller_Attempt
                     }
                     if (InputManager.IsButtonPressed(Buttons.A, player.index))
                     {
-                        player.Body.GetPlayerCircle(player, _world);
+                        player.Body.GetPlayerCircle(player, _world, _circleBody);
                     }
                 }
             #endregion
@@ -106,7 +114,7 @@ namespace _2_Controller_Attempt
             //spritebatch.DrawString(font, "Player" + player.index.ToString(), currentPosition, Color.Red);
             if (player.Sprite != null)
             {
-                    spritebatch.Draw(player.Sprite, player.currentPosition, Color.White);
+                 spritebatch.Draw(player.Sprite, player.currentPosition, Color.White);
             }
             spritebatch.End();
         }

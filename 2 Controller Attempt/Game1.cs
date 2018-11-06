@@ -19,6 +19,7 @@ namespace _2_Controller_Attempt
         List<Player> playersList = new List<Player>();
 
         public World _world;
+        private Vector2 _screenCenter;
 
         PlayerIndex playerIndex;
 
@@ -40,15 +41,20 @@ namespace _2_Controller_Attempt
 
         protected override void LoadContent()
         {
+            _screenCenter = new Vector2(graphics.GraphicsDevice.Viewport.Width
+                / 2f, graphics.GraphicsDevice.Viewport.Height / 2f);
+
             font = Content.Load<SpriteFont>("SystemFont");
 
             player1 = new Player(this);
             player1.Name = "Player1";
             player1.Sprite = Content.Load<Texture2D>("Sprites/Mike_300X300");
+            player1.Body = new PlayerPhysics(this);
 
             player2 = new Player(this);
             player2.Name = "Player2";
             player2.Sprite = Content.Load<Texture2D>("Sprites/Spike_300X300");
+            player2.Body = new PlayerPhysics(this);
 
             player3 = new Player(this);
             player3.Name = "Player3";
@@ -105,10 +111,10 @@ namespace _2_Controller_Attempt
             {
                 GamePadState state = GamePad.GetState(player.index);
 
-                if (state.IsConnected)
+                if (state.IsConnected && player.IsConnected == true)
                 {
-                        player.Draw(gameTime, font, spriteBatch, player);
-                }       
+                    player.Draw(gameTime, font, spriteBatch, player);
+                }
             }            
 
             base.Draw(gameTime);
