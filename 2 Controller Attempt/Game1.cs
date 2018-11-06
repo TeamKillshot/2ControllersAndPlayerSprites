@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using tainicom.Aether.Physics2D.Dynamics;
 
 namespace _2_Controller_Attempt
 {
@@ -17,7 +18,7 @@ namespace _2_Controller_Attempt
 
         List<Player> playersList = new List<Player>();
 
-        Rectangle world;
+        public World _world;
 
         PlayerIndex playerIndex;
 
@@ -28,6 +29,8 @@ namespace _2_Controller_Attempt
 
             new InputManager(this);
             player = new Player(this);
+
+            _world = new World(new Vector2(0, 9.82f));
         }
 
         protected override void Initialize()
@@ -37,8 +40,6 @@ namespace _2_Controller_Attempt
 
         protected override void LoadContent()
         {
-            world = new Rectangle(0,0, 1280, 720);
-
             font = Content.Load<SpriteFont>("SystemFont");
 
             player1 = new Player(this);
@@ -85,9 +86,11 @@ namespace _2_Controller_Attempt
 
                 if(state.IsConnected)
                 {
-                    player.Update(gameTime, player, world);
+                    player.Update(gameTime, player, _world);
                 }
             }
+
+            _world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
 
             // TODO: Add your update logic here
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Engine.Managers;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using tainicom.Aether.Physics2D.Dynamics;
 
 namespace _2_Controller_Attempt
 {
@@ -18,15 +19,9 @@ namespace _2_Controller_Attempt
         public Rectangle previousPosition;
         public Rectangle currentPosition;
 
-        Vector2 position;
-        Vector2 velocity;
-        readonly Vector2 gravity = new Vector2(0, -9.8f);
-
         public Texture2D Sprite { get; set; }
-
-        int playerNumber = 0;
-
         public string Name { get; set; }
+        public PlayerPhysics Body { get; set; }
 
         public List<Player> playerList = new List<Player>();
 
@@ -46,6 +41,7 @@ namespace _2_Controller_Attempt
         {            
             player.currentPosition = new Rectangle(125, 125, 300, 300);
             player.previousPosition = player.currentPosition;
+
         }
 
         public void GetPlayerIndex(Player player)
@@ -75,7 +71,7 @@ namespace _2_Controller_Attempt
             }
         }
 
-        public void Update(GameTime gameTime, Player player, Rectangle world)
+        public void Update(GameTime gameTime, Player player, World _world)
         {
             #region Player1 Controller
                 if (player != null)
@@ -96,22 +92,12 @@ namespace _2_Controller_Attempt
                     {
                         player.currentPosition.Y -= speed;
                     }
+                    if (InputManager.IsButtonPressed(Buttons.A, player.index))
+                    {
+                        player.Body.GetPlayerCircle(player, _world);
+                    }
                 }
             #endregion
-
-            if(!world.Contains(player.currentPosition))
-            {
-                player.currentPosition = player.previousPosition;
-            }
-
-            float time = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            velocity += gravity * time;
-            position += velocity * time;
-
-            if(Keyboard.GetState().IsKeyDown(Keys.Space))
-            {
-
-            }
         }
 
         public void Draw(GameTime gameTime, SpriteFont font, SpriteBatch spritebatch, Player player)
