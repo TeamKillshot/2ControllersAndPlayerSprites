@@ -81,34 +81,43 @@ namespace _2_Controller_Attempt
 
         public void Update(GameTime gameTime, Player player, World _world)
         {
-            #region Player1 Controller
+            #region Player1 Controller DPad
+            if (player != null)
+            {
+                if (InputManager.IsButtonPressed(Buttons.DPadRight, player.index))
+                {
+                    player.currentPosition.X += speed;
+                }
+                if (InputManager.IsButtonPressed(Buttons.DPadLeft, player.index))
+                {
+                    player.currentPosition.X -= speed;
+                }
+                if (InputManager.IsButtonPressed(Buttons.DPadDown, player.index))
+                {
+                    player.currentPosition.Y += speed;
+                }
+                if (InputManager.IsButtonPressed(Buttons.DPadUp, player.index))
+                {
+                    player.currentPosition.Y -= speed;
+                }
+                if (InputManager.IsButtonPressed(Buttons.A, player.index))
+                {
+                    player.Body.GetPlayerCircle(player, _world, _circleBody);
+                }
+
+                #region Player1 Controller Joysticks
                 if (player != null)
                 {
-                    if (InputManager.IsButtonPressed(Buttons.DPadRight, player.index))
-                    {
-                        player.currentPosition.X += speed;
-                    }
-                    if (InputManager.IsButtonPressed(Buttons.DPadLeft, player.index))
-                    {
-                        player.currentPosition.X -= speed;
-                    }
-                    if (InputManager.IsButtonPressed(Buttons.DPadDown, player.index))
-                    {
-                        player.currentPosition.Y += speed;
-                    }
-                    if (InputManager.IsButtonPressed(Buttons.DPadUp, player.index))
-                    {
-                        player.currentPosition.Y -= speed;
-                    }
-                    if (InputManager.IsButtonPressed(Buttons.A, player.index))
-                    {
-                        player.Body.GetPlayerCircle(player, _world, _circleBody);
-                    }
+                    Vector2 Joystick = InputManager.ThumbStickState();
+                    Vector2 curPos = new Vector2(player.currentPosition.X, player.currentPosition.Y);
+
+
                 }
-            #endregion
+                #endregion
+            }
         }
 
-        public void Draw(GameTime gameTime, SpriteFont font, SpriteBatch spritebatch, Player player)
+            public void Draw(GameTime gameTime, SpriteFont font, SpriteBatch spritebatch, Player player)
         {
             spritebatch.Begin();
             //spritebatch.DrawString(font, "Player" + player.index.ToString(), currentPosition, Color.Red);

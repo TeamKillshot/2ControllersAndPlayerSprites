@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,8 @@ namespace _2_Controller_Attempt
 
         public void GetPlayerCircle(Player player, World _world, Body _circleBody)
         {
+            GamePadState padState = GamePad.GetState(player.index);
+
             if (player.Sprite != null)
             {
                 _circleOrigin = new Vector2(player.Sprite.Width / 2f, player.Sprite.Height / 2f);
@@ -51,6 +54,13 @@ namespace _2_Controller_Attempt
                 _circleBody.SetFriction(0.5f);
 
                 _circleBody.ApplyLinearImpulse(new Vector2(0, -10));
+
+                _circleBody.ApplyForce(padState.ThumbSticks.Left);
+                _cameraPosition.X -= padState.ThumbSticks.Right.X;
+                _cameraPosition.Y += padState.ThumbSticks.Right.Y;
+
+                _view = Matrix.CreateTranslation(new Vector3(_cameraPosition - new Vector2(player.currentPosition.X, player.currentPosition.Y), 0f)) 
+                    * Matrix.CreateTranslation(new Vector3(new Vector2(player.currentPosition.X, player.currentPosition.Y), 0f));
 
                 //_view = Matrix.CreateTranslation(new Vector3(_cameraPosition - _screenCenter, 0f)) 
                 //*Matrix.CreateTranslation(new Vector3(_screenCenter, 0f));

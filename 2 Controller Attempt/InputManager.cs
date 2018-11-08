@@ -104,6 +104,12 @@ namespace Engine.Managers
             }
         }
 
+        public static Vector2 ThumbStickState()
+        {
+            Vector2 stickPos = currentPadState.ThumbSticks.Left;
+            return stickPos;
+        }
+
         public static bool IsKeyHeld(Keys buttonToCheck)
         {
             if (currentKeyState.IsKeyDown(buttonToCheck))
