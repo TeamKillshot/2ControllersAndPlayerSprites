@@ -18,8 +18,6 @@ namespace _2_Controller_Attempt
 
         List<Player> playersList = new List<Player>();
 
-        public World _world;
-
         PlayerIndex playerIndex;
 
         public Game1()
@@ -89,8 +87,6 @@ namespace _2_Controller_Attempt
                     player.Update(gameTime, player, _world);
                 }
             }
-
-            _world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
 
             // TODO: Add your update logic here
 

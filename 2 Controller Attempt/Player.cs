@@ -21,7 +21,6 @@ namespace _2_Controller_Attempt
 
         public Texture2D Sprite { get; set; }
         public string Name { get; set; }
-        public PlayerPhysics Body { get; set; }
 
         public List<Player> playerList = new List<Player>();
 
@@ -91,10 +90,6 @@ namespace _2_Controller_Attempt
                     if (InputManager.IsButtonPressed(Buttons.DPadUp, player.index))
                     {
                         player.currentPosition.Y -= speed;
-                    }
-                    if (InputManager.IsButtonPressed(Buttons.A, player.index))
-                    {
-                        player.Body.GetPlayerCircle(player, _world);
                     }
                 }
             #endregion
